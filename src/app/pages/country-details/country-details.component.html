@@ -1,0 +1,52 @@
+<div class="country-details-container" *ngIf="olympic$ | async as olympic; else loading">
+  <!-- Country name header -->
+  <div class="country-header">
+    <h2>{{ countryName }}</h2>
+  </div>
+
+  <!-- Stats boxes container -->
+  <div class="stats-container">
+    <div class="stat-box">
+      <h3>Number of entries</h3>
+      <p>{{ numberOfEntries }}</p>
+    </div>
+    <div class="stat-box">
+      <h3>Total number medals</h3>
+      <p>{{ totalMedals }}</p>
+    </div>
+    <div class="stat-box">
+      <h3>Total number of athletes</h3>
+      <p>{{ totalAthletes }}</p>
+    </div>
+  </div>
+
+  <!-- Line chart container -->
+  <div class="chart-container">
+    <ngx-charts-line-chart
+      [view]="view"
+      [results]="lineChartData"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [timeline]="timeline"
+      [autoScale]="true"
+    >
+    </ngx-charts-line-chart>
+  </div>
+
+  <!-- Back button -->
+  <div class="button-container">
+    <button class="back-button" (click)="goBack()">Back</button>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading-container">
+    <p>Loading data...</p>
+  </div>
+</ng-template>

@@ -1,0 +1,32 @@
+<!-- Large header with a background color -->
+<h2 class="chart-header">
+  Medals per Country
+</h2>
+
+<!-- Stats boxes container -->
+<div class="stats-container">
+  <div class="stat-box">
+    <h3>Number of JOs</h3>
+    <p>{{ numberOfJOs }}</p>
+  </div>
+  <div class="stat-box">
+    <h3>Number of countries</h3>
+    <p>{{ numberOfCountries }}</p>
+  </div>
+</div>
+
+<!-- Pie chart container -->
+<div class="chart-container"> 
+  <ngx-charts-pie-chart
+    [view]="[700, 400]"
+    [results]="chartData"
+    [legend]="false"
+    legendTitle="Countries"
+    [labels]="true"
+    [doughnut]="false" 
+    [gradient]="true"
+    [tooltipDisabled]="false"
+    (select)="onSelect($event)"
+  >
+  </ngx-charts-pie-chart>
+</div>
