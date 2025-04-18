@@ -1,0 +1,85 @@
+.country-details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.country-header {
+  background-color: #008080; /* Teal color as shown in the image */
+  color: white;
+  padding: 15px 30px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: center;
+  
+  h2 {
+    margin: 0;
+    font-size: 24px;
+  }
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.stat-box {
+  flex: 1;
+  margin: 0 10px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+  
+  h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    font-weight: normal;
+  }
+  
+  p {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
+
+.chart-container {
+  width: 100%;
+  height: 400px;
+  margin-bottom: 30px;
+}
+
+.button-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.back-button {
+  background-color: #008080; /* Teal color to match header */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  
+  &:hover {
+    background-color: darken(#008080, 10%);
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  width: 100%;
+}
