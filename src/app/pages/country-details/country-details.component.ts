@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -35,12 +35,37 @@ export class CountryDetailsComponent implements OnInit {
   public showYAxisLabel = false;
   public yAxisLabel = 'Medals';
   public timeline = false;
+  public colorScheme: any = {
+    domain: ['#008080']
+  };
 
   constructor(
     private route: ActivatedRoute,
     private olympicService: OlympicService,
     private router: Router
-  ) {}
+  ) { 
+    this.onResize();
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    const width = window.innerWidth;
+    
+    if (width <= 480) {
+      this.view = [width - 50, 250];
+    } else if (width <= 768) {
+      this.view = [width - 60, 300];
+    } else if (width <= 992) {
+      this.view = [width - 80, 350];
+    } else {
+      this.view = [Math.min(width - 100, 800), 400];
+    }
+    
+    // Ensure chart width never exceeds viewport width
+    if (this.view[0] > width - 30) {
+      this.view[0] = width - 30;
+    }
+  }
 
   ngOnInit(): void {
     this.olympic$ = this.route.paramMap.pipe(
@@ -48,7 +73,7 @@ export class CountryDetailsComponent implements OnInit {
         const olympicId = Number(params.get('id'));
         return this.olympicService.getOlympicById(olympicId).pipe(
           catchError(() => {
-            this.router.navigate(['/']);
+            this.router.navigate(['/not-found']);
             return of(undefined);
           })
         );
@@ -65,7 +90,7 @@ export class CountryDetailsComponent implements OnInit {
             (sum, participation) => sum + participation.athleteCount,
             0
           );
-          
+
           // Prepare line chart data
           this.lineChartData = [
             {

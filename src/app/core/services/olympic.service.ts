@@ -16,6 +16,7 @@ export class OlympicService {
 
   loadInitialData() {
     return this.http.get<Olympic[]>(this.olympicUrl).pipe(
+      //TODO: reverifier le code d'avant  
       map(data => plainToInstance(Olympic, data)),
     tap((serializedData: Olympic[]) => {
       // Update the observable with the new serialized data
@@ -50,7 +51,13 @@ export class OlympicService {
 
   getOlympicById(id: number) {
     return this.olympics$.pipe(
-      map((olympics) => olympics?.find((olympic) => olympic.id === id))
+      map((olympics) => {
+        const olympic = olympics?.find((olympic) => olympic.id === id);
+        if (!olympic) {
+          throw new Error(`Olympic with id ${id} not found`);
+        }
+        return olympic;
+      })
     );
   }
 }
