@@ -73,7 +73,7 @@ export class CountryDetailsComponent implements OnInit {
         const olympicId = Number(params.get('id'));
         return this.olympicService.getOlympicById(olympicId).pipe(
           catchError(() => {
-            this.router.navigate(['/']);
+            this.router.navigate(['/not-found']);
             return of(undefined);
           })
         );

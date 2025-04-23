@@ -51,7 +51,13 @@ export class OlympicService {
 
   getOlympicById(id: number) {
     return this.olympics$.pipe(
-      map((olympics) => olympics?.find((olympic) => olympic.id === id))
+      map((olympics) => {
+        const olympic = olympics?.find((olympic) => olympic.id === id);
+        if (!olympic) {
+          throw new Error(`Olympic with id ${id} not found`);
+        }
+        return olympic;
+      })
     );
   }
 }
