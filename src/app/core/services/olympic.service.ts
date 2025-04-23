@@ -16,6 +16,7 @@ export class OlympicService {
 
   loadInitialData() {
     return this.http.get<Olympic[]>(this.olympicUrl).pipe(
+      //TODO: reverifier le code d'avant  
       map(data => plainToInstance(Olympic, data)),
     tap((serializedData: Olympic[]) => {
       // Update the observable with the new serialized data

@@ -22,21 +22,24 @@
 
   <!-- Line chart container -->
   <div class="chart-container">
-    <ngx-charts-line-chart
-      [view]="view"
-      [results]="lineChartData"
-      [gradient]="gradient"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [legend]="showLegend"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-      [timeline]="timeline"
-      [autoScale]="true"
-    >
-    </ngx-charts-line-chart>
+    <div class="chart-wrapper">
+      <ngx-charts-line-chart
+        [view]="view"
+        [results]="lineChartData"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [timeline]="timeline"
+        [autoScale]="true"
+        [scheme]="colorScheme"
+      >
+      </ngx-charts-line-chart>
+    </div>
   </div>
 
   <!-- Back button -->
