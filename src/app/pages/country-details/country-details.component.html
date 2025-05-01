@@ -6,18 +6,9 @@
 
   <!-- Stats boxes container -->
   <div class="stats-container">
-    <div class="stat-box">
-      <h3>Number of entries</h3>
-      <p>{{ numberOfEntries }}</p>
-    </div>
-    <div class="stat-box">
-      <h3>Total number medals</h3>
-      <p>{{ totalMedals }}</p>
-    </div>
-    <div class="stat-box">
-      <h3>Total number of athletes</h3>
-      <p>{{ totalAthletes }}</p>
-    </div>
+    <app-stat-box title="Number of entries" [value]="numberOfEntries"></app-stat-box>
+    <app-stat-box title="Total number medals" [value]="totalMedals"></app-stat-box>
+    <app-stat-box title="Total number of athletes" [value]="totalAthletes"></app-stat-box>
   </div>
 
   <!-- Line chart container -->
