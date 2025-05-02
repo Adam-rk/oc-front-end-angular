@@ -1,19 +1,12 @@
-import { Expose } from "class-transformer";
-
 export class Participation {
-    @Expose()
     public id: number;
 
-    @Expose()
     public year: number;
 
-    @Expose()
     public city: string;
 
-    @Expose()
     public medalsCount: number;
 
-    @Expose()
     public athleteCount: number;
 
     constructor(id: number, year: number, city: string, medalsCount: number, athleteCount: number) {

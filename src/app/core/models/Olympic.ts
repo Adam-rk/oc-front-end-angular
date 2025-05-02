@@ -1,4 +1,3 @@
-import { Expose, Type } from "class-transformer";
 import { Participation } from "./Participation";
 
 
@@ -8,8 +7,6 @@ export class Olympic {
 
 
     public country: string;
-
-    @Type(() => Participation)
 
     public participations: Participation[];
 
