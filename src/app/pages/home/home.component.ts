@@ -1,25 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
-import { Olympic } from 'src/app/core/models/Olympic';
-import { Participation } from 'src/app/core/models/Participation';
+import { Subscription } from 'rxjs';
+import { ChartData } from 'src/app/core/models/ChartData';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
-interface ChartData {
-  name: string;
-  value: number;
-  id?: number; // Add Olympic ID for navigation
-}
+
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   public chartData: ChartData[] = [];
   public numberOfJOs = 0;
   public numberOfCountries = 0;
+  private subscription = new Subscription();
 
 
 
@@ -29,40 +25,20 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnDestroy(): void {
-    //TODO: Unsub from observable
+    // Clean up subscriptions to prevent memory leaks
+    this.subscription.unsubscribe();
   }
 
 
   ngOnInit(): void {
-    // Subscribe to the olympicService to get the data
-
-    this.olympicService.getOlympics().pipe(
-      map((olympics) => {
-        if (!olympics) {
-          return [];
-        }
-
-        let totalJOs = 0;
-        olympics.forEach((olympic: Olympic) => {
-          totalJOs += olympic.participations.length;
-        });
-        this.numberOfJOs = totalJOs;
-
-        this.numberOfCountries = olympics.length;
-
-        return olympics.map((olympic: Olympic) => {
-          const totalMedals = olympic.participations.reduce(
-            (sum: number, participation: Participation) => sum + participation.medalsCount,
-            0
-          );
-          return { name: olympic.country, value: totalMedals, id: olympic.id };
-        });
+    // Subscribe directly to the getHomePageData method
+    this.subscription.add(
+      this.olympicService.getHomePageData().subscribe(data => {
+        this.chartData = data.chartData;
+        this.numberOfJOs = data.numberOfJOs;
+        this.numberOfCountries = data.numberOfCountries;
       })
-    ).subscribe((data) => {
-      this.chartData = data;
-    });
-
-    this.olympicService.loadInitialData().subscribe();
+    );
   }
 
   // Handle click on pie chart slice

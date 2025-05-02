@@ -8,10 +8,11 @@ import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CountryDetailsComponent } from './pages/country-details/country-details.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, NotFoundComponent, CountryDetailsComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule, NgxChartsModule],
+  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule, NgxChartsModule, SharedModule],
   providers: [],
   bootstrap: [AppComponent],
 })

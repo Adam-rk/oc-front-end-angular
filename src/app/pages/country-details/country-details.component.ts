@@ -1,28 +1,20 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { Olympic } from 'src/app/core/models/Olympic';
-import { Participation } from 'src/app/core/models/Participation';
 import { OlympicService } from 'src/app/core/services/olympic.service';
-
-interface LineChartData {
-  name: string;
-  series: { name: string; value: number }[];
-}
+import { LineChartData } from 'src/app/core/models/LineChartData';
 
 @Component({
   selector: 'app-country-details',
   templateUrl: './country-details.component.html',
   styleUrls: ['./country-details.component.scss']
 })
-export class CountryDetailsComponent implements OnInit {
-  public olympic$: Observable<Olympic | undefined> = of(undefined);
-  public countryName: string = '';
-  public numberOfEntries: number = 0;
-  public totalMedals: number = 0;
-  public totalAthletes: number = 0;
-  public lineChartData: LineChartData[] = [];
+export class CountryDetailsComponent implements OnInit, OnDestroy {
+  public olympic$: Observable<Olympic[] | undefined> = of(undefined);
+  public lineChartData: LineChartData | undefined;
+  private subscription = new Subscription();
 
   // Chart options
   public view: [number, number] = [800, 400];
@@ -68,48 +60,36 @@ export class CountryDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.olympic$ = this.route.paramMap.pipe(
-      switchMap(params => {
-        const olympicId = Number(params.get('id'));
-        return this.olympicService.getOlympicById(olympicId).pipe(
-          catchError(() => {
-            this.router.navigate(['/not-found']);
-            return of(undefined);
-          })
-        );
-      }),
-      map(olympic => {
-        if (olympic) {
-          this.countryName = olympic.country;
-          this.numberOfEntries = olympic.participations.length;
-          this.totalMedals = olympic.participations.reduce(
-            (sum, participation) => sum + participation.medalsCount,
-            0
+    // Initialize the olympic$ observable to ensure the template works
+    this.olympic$ = this.olympicService.getOlympics();
+    
+    // Subscribe to route params and get country details
+    this.subscription.add(
+      this.route.paramMap.pipe(
+        switchMap(params => {
+          const olympicId = Number(params.get('id'));
+          return this.olympicService.getCountryDetails(olympicId).pipe(
+            catchError(error => {
+              console.error('Error getting country details:', error);
+              this.router.navigate(['/not-found']);
+              return of(undefined);
+            })
           );
-          this.totalAthletes = olympic.participations.reduce(
-            (sum, participation) => sum + participation.athleteCount,
-            0
-          );
-
-          // Prepare line chart data
-          this.lineChartData = [
-            {
-              name: olympic.country,
-              series: olympic.participations
-                .sort((a, b) => a.year - b.year)
-                .map(participation => ({
-                  name: participation.year.toString(),
-                  value: participation.medalsCount
-                }))
-            }
-          ];
+        })
+      ).subscribe(data => {
+        if (data) {
+          this.lineChartData = data;
         }
-        return olympic;
       })
     );
   }
 
   goBack(): void {
     this.router.navigate(['/']);
+  }
+  
+  ngOnDestroy(): void {
+    // Clean up subscriptions to prevent memory leaks
+    this.subscription.unsubscribe();
   }
 }

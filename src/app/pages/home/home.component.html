@@ -5,14 +5,8 @@
 
 <!-- Stats boxes container -->
 <div class="stats-container">
-  <div class="stat-box">
-    <h3>Number of JOs</h3>
-    <p>{{ numberOfJOs }}</p>
-  </div>
-  <div class="stat-box">
-    <h3>Number of countries</h3>
-    <p>{{ numberOfCountries }}</p>
-  </div>
+  <app-stat-box title="Number of JOs" [value]="numberOfJOs"></app-stat-box>
+  <app-stat-box title="Number of countries" [value]="numberOfCountries"></app-stat-box>
 </div>
 
 <!-- Pie chart container -->

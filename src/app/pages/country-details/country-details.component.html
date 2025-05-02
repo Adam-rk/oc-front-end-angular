@@ -1,43 +1,23 @@
 <div class="country-details-container" *ngIf="olympic$ | async as olympic; else loading">
   <!-- Country name header -->
   <div class="country-header">
-    <h2>{{ countryName }}</h2>
+    <h2>{{ lineChartData?.countryName }}</h2>
   </div>
 
   <!-- Stats boxes container -->
   <div class="stats-container">
-    <div class="stat-box">
-      <h3>Number of entries</h3>
-      <p>{{ numberOfEntries }}</p>
-    </div>
-    <div class="stat-box">
-      <h3>Total number medals</h3>
-      <p>{{ totalMedals }}</p>
-    </div>
-    <div class="stat-box">
-      <h3>Total number of athletes</h3>
-      <p>{{ totalAthletes }}</p>
-    </div>
+    <app-stat-box title="Number of entries" [value]="lineChartData?.numberOfEntries || 0"></app-stat-box>
+    <app-stat-box title="Total number medals" [value]="lineChartData?.totalMedals || 0"></app-stat-box>
+    <app-stat-box title="Total number of athletes" [value]="lineChartData?.totalAthletes || 0"></app-stat-box>
   </div>
 
   <!-- Line chart container -->
   <div class="chart-container">
     <div class="chart-wrapper">
-      <ngx-charts-line-chart
-        [view]="view"
-        [results]="lineChartData"
-        [gradient]="gradient"
-        [xAxis]="showXAxis"
-        [yAxis]="showYAxis"
-        [legend]="showLegend"
-        [showXAxisLabel]="showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="xAxisLabel"
-        [yAxisLabel]="yAxisLabel"
-        [timeline]="timeline"
-        [autoScale]="true"
-        [scheme]="colorScheme"
-      >
+      <ngx-charts-line-chart [view]="view" [results]="lineChartData?.chartData" [gradient]="gradient" [xAxis]="showXAxis"
+        [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [timeline]="timeline" [autoScale]="true"
+        [scheme]="colorScheme">
       </ngx-charts-line-chart>
     </div>
   </div>
