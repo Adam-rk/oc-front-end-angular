@@ -184,7 +184,7 @@ export class OlympicService {
   }
 
   /**
-   * Find an Olympic by its ID
+   * Find an Olympic by ID
    * @param olympics - Array of Olympics to search in
    * @param id - ID of the Olympic to find
    * @returns The found Olympic object

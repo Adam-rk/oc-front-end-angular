@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   // Handle click on pie chart slice
-  onSelect(event: any): void {
+  onSelect(event: { name: string }): void {
     const selectedData = this.chartData.find(data => data.name === event.name);
     if (selectedData && selectedData.id) {
       this.router.navigate(['/country', selectedData.id]);
