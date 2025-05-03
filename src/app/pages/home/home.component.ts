@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ChartData } from 'src/app/core/models/ChartData';
+import { ChartEvent } from 'src/app/core/models/ChartEvent';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
 
@@ -42,7 +43,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   // Handle click on pie chart slice
-  onSelect(event: { name: string }): void {
+  onSelect(event: ChartEvent): void {
     const selectedData = this.chartData.find(data => data.name === event.name);
     if (selectedData && selectedData.id) {
       this.router.navigate(['/country', selectedData.id]);
